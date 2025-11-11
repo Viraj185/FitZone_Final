@@ -1,0 +1,4 @@
+com\fitzone\controller\JoinFormController.class
+com\fitzone\model\JoinFormSubmission.class
+com\fitzone\FitzoneBackendApplication.class
+com\fitzone\repository\JoinFormRepository.class

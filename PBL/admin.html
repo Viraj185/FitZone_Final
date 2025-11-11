@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitZone Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Membership Data</h1>
+    
+    <div class="search-container">
+      <input type="text" class="search-box" placeholder="Search by name..." id="searchInput">
+    </div>
+
+    <div id="errorMessage"></div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Plan</th>
+            <th>Message</th>
+            <th>Date Joined</th>
+          </tr>
+        </thead>
+        <tbody id="memberTable">
+          <tr>
+            <td colspan="6" class="loading">Loading members...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function loadMembers() {
+      const tbody = document.getElementById('memberTable');
+      const errorDiv = document.getElementById('errorMessage');
+      
+      try {
+        console.log('Fetching members from API...');
+        const response = await fetch('http://localhost:8080/api/join');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const members = await response.json();
+        console.log('Members received:', members);
+
+        tbody.innerHTML = ''; // Clear loading message
+
+        if (members.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="no-results">No members found. Start by adding members through the main site!</td></tr>';
+          return;
+        }
+
+        members.forEach(member => {
+          const row = document.createElement('tr');
+          
+          // Format date if available
+          const dateJoined = member.dateJoined ? new Date(member.dateJoined).toLocaleDateString() : 'N/A';
+          
+          row.innerHTML = `
+            <td>${member.name || 'N/A'}</td>
+            <td>${member.email || 'N/A'}</td>
+            <td>${member.phone || 'N/A'}</td>
+            <td>${member.membershipPlan || 'N/A'}</td>
+            <td title="${member.fitnessGoal || 'N/A'}">${member.fitnessGoal || 'N/A'}</td>
+            <td>${dateJoined}</td>
+          `;
+          tbody.appendChild(row);
+        });
+        
+        errorDiv.innerHTML = '';
+      } catch (error) {
+        console.error('Failed to load members:', error);
+        tbody.innerHTML = '<tr><td colspan="6" class="loading">Failed to load data. Please check if the backend is running.</td></tr>';
+        errorDiv.innerHTML = `<div class="error-message">⚠️ Failed to load members data: ${error.message}. Make sure the backend server is running on http://localhost:8080</div>`;
+      }
+    }
+
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#memberTable tr");
+      
+      let visibleCount = 0;
+      rows.forEach(row => {
+        // Skip if it's a special row (loading, error, etc.)
+        if (row.cells.length === 6) {
+          const name = row.cells[0].textContent.toLowerCase();
+          const shouldShow = name.includes(filter);
+          row.style.display = shouldShow ? "" : "none";
+          if (shouldShow) visibleCount++;
+        }
+      });
+      
+      // Show "no results" message if nothing matches
+      if (visibleCount === 0 && rows.length > 0) {
+        const tbody = document.getElementById('memberTable');
+        const existingNoResults = tbody.querySelector('.search-no-results');
+        if (!existingNoResults) {
+          tbody.innerHTML += '<tr class="search-no-results"><td colspan="6" class="no-results">No members match your search</td></tr>';
+        }
+      } else {
+        // Remove "no results" message if items are visible
+        const noResultsRow = document.querySelector('.search-no-results');
+        if (noResultsRow) noResultsRow.remove();
+      }
+    });
+
+    // Load members on page load
+    window.addEventListener('DOMContentLoaded', loadMembers);
+  </script>
+</body>
+</html>

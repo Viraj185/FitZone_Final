@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.search-box {
+  padding: 12px 20px;
+  width: 350px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-box:focus {
+  border-color: #667eea;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.3);
+  transform: translateY(-2px);
+}
+
+.search-box::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.table-container {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+  color: white;
+  padding: 18px 15px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+}
+
+tr {
+  transition: all 0.2s ease;
+}
+
+tr:hover {
+  background: linear-gradient(90deg, #f8f9ff 0%, #e8ebff 100%);
+  transform: scale(1.01);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Alternate row colors */
+tbody tr {
+  background-color: #fafafa;
+}
+
+tbody tr:hover {
+  background: linear-gradient(90deg, #05060b 0%, #e0e5ff 100%);
+}
+
+/* Column specific styling */
+td:first-child {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+td:nth-child(2) {
+  color: #3498db;
+  font-weight: 400;
+}
+
+td:nth-child(4) {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+td:nth-child(4):before {
+  content: "💪 ";
+}
+
+td:nth-child(5) {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+  font-style: italic;
+}
+
+td:nth-child(6) {
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Empty state */
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .search-box {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  th, td {
+    padding: 10px 8px;
+  }
+  
+  td:nth-child(5) {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  th, td {
+    padding: 8px 5px;
+  }
+  
+  .search-box {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Scroll styles */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #5a67d8;
+}
+
+/* Animation for row appearance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+tbody tr {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Error message styling */
+.error-message {
+  background: #ff6b35;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: center;
+  font-weight: 500;
+}
