@@ -1,17 +1,5 @@
 const BACKEND_URL = "http://localhost:8080/api/join";
 
-// Name field validation - only alphabets and spaces
-document.getElementById("name").addEventListener("input", function(e) {
-  // Remove any character that is not a letter or space
-  this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
-});
-
-// Phone field validation - only numbers
-document.getElementById("phone").addEventListener("input", function(e) {
-  // Remove any character that is not a number
-  this.value = this.value.replace(/[^0-9]/g, '');
-});
-
 document.getElementById("joinForm").addEventListener("submit", async e => {
   e.preventDefault();
 
